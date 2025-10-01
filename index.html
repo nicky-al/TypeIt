@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TypeIt</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Load JS ONCE, as a module OR classic. We'll use classic here to avoid module/CORS hassles. -->
+    <script src="Main.js" defer></script>
+</head>
+
+<body>
+<nav>
+    <div class="mylogo"><p>Type It</p></div>
+    <button class="openModal">Info</button>
+</nav>
+
+<main>
+    <div class="statContain">
+        <p class="timer">Time: 60s</p>
+        <p class="errorE1">Errors: 0</p>
+    </div>
+
+    <div class="sentences"></div>
+    <input type="text" class="input" />
+
+    <div class="GUI">
+        <button class="switch">Switch</button>
+        <button class="start">Start</button>
+        <button class="reset">Reset</button>
+    </div>
+
+    <small><span>Note:</span> Quickly start typing after clicking <span>Start</span> button</small>
+    <small><span>-</span> <span>NO backspacing allowed >:)!!!</span></small>
+</main>
+
+<div class="modalSection hideModal">
+    <div class="modalContainer">
+        <span class="closeModal">&times;</span>
+        <h2>Thanks for trying out Type <span>It!</span></h2>
+        <h5>A better version of TypeRacer built for my nerdy boyfriend and all other typers out there. Practice your accuracy, speed, and patience with my timed drills.</h5>
+        <small>(still being worked on <3)</small>
+    </div>
+</div>
+
+<div class="reportsForm">
+    <h2>Report a bug!</h2>
+    <form onsubmit="return false">
+        <label>Title</label>
+        <input type="text" />
+        <label>Description</label>
+        <textarea id="bugDesc" cols="30" rows="10"></textarea>
+        <button>Submit</button>
+    </form>
+</div>
+
+<section>
+    <span>Records</span>
+    <div class="tableContain"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Error</th>
+            <th>Accuracy</th>
+            <th>WPM</th>
+        </tr>
+        </thead>
+        <tbody id="recordsBody"></tbody>
+    </table>
+
+    <p class="notice">You haven't set any Record yet!</p>
+</section>
+
+<footer>
+    <div class="creditsContainer">
+        <span>@2025 TypeIt, All rights reserved.</span>
+        <p>Web created by Nicky</p>
+    </div>
+</footer>
+</body>
+</html>
