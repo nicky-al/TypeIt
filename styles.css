@@ -1,0 +1,402 @@
+@import url("https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=wght@900&swap");
+
+/* Variables */
+:root {
+    --lightGray: #430505; /* red */
+    --darkGray: #3b3b3b;
+    --pink: #cca9bc;
+    --creamYellow: #fdf3b0; /* creamy yellow */
+    --fontColor: #430505;   /* fallback */
+}
+
+* {
+    padding: 2px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: "Shadows Into Light", cursive;
+    color: #430505;
+    user-select: none;
+}
+
+body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--pink);
+    position: relative;
+}
+
+/* NAV */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--pink);
+    padding: 1.5rem 3rem 0 3rem;
+    position: fixed;
+    font-weight: bolder;
+    z-index: 98;
+}
+nav .openModal {
+    background-color: var(--creamYellow);
+    color: var(--lightGray);       /* red text */
+    border: 2px solid var(--lightGray);
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+nav .openModal:hover {
+    background-color: #fff8d6;     /* lighter cream */
+    transform: scale(1.05);
+}
+
+nav .mylogo {
+    display: flex;
+    letter-spacing: 1px;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--lightGray); /* red text for title */
+    cursor: pointer;
+}
+
+/* MAIN */
+main {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid var(--fontColor);
+    margin-top: 5rem;
+}
+
+/* Timer + Errors */
+main .statContain {
+    width: 70rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--creamYellow); /* cream background */
+    border: 3px solid var(--lightGray);   /* red border */
+    border-radius: 10px;
+    padding: 12px 30px;
+    margin-top: 3rem;
+}
+
+main .statContain p {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--lightGray); /* red text */
+}
+
+/* Sentences */
+main .sentences {
+    width: 75rem;
+    height: 15rem;
+    color: var(--fontColor);
+    font-size: 22px;
+    font-family: "Roboto Mono", monospace;
+    letter-spacing: 1px;
+    line-height: 40px;
+    text-align: justify;
+    margin: 2rem 0 1rem 0;
+}
+
+main .sentences .inputed-letter::before {
+    content: "";
+    border-left: 2px solid white;
+}
+
+main input {
+    color: black;
+    position: absolute;
+    opacity: 0;
+}
+
+/* BUTTONS */
+.GUI button {
+    margin: 0 15px;
+    background-color: var(--creamYellow);  /* creamy yellow */
+    color: var(--lightGray);               /* red text */
+    font-size: 16px;
+    font-weight: 700;
+    border: 2px solid var(--lightGray);
+    padding: 6px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.15s ease-in-out;
+}
+
+.GUI button:hover {
+    background-color: #fff8d6;  /* lighter cream */
+    border: 2px solid white;
+    transform: scale(1.05);
+}
+
+.GUI button:active {
+    transform: scale(0.95);
+}
+
+/* Notes under buttons */
+main small {
+    font-weight: 500;
+    color: var(--fontColor);
+    letter-spacing: 1px;
+    margin: 2px 0;
+}
+
+main small span {
+    color: var(--lightGray);
+    font-weight: 600;
+}
+
+/* MODAL */
+.modalSection {
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    position: absolute;
+    z-index: 99;
+}
+
+.modalSection .modalContainer {
+    width: 30rem;
+    height: 20rem;
+    background-color: var(--creamYellow);
+    border-radius: 13px;
+    border: 2px solid #430505;
+    position: sticky;
+    top: 13rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modalSection .modalContainer i {
+    font-size: 1.5rem;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.modalSection .modalContainer i:hover {
+    transform: scale(1.03);
+    color: #430505;
+}
+
+.modalSection .modalContainer h2 {
+    margin: 1rem 0 2rem 0;
+    letter-spacing: 0.5px;
+    color: var(--lightGray);
+}
+
+
+.modalSection .modalContainer h2 span {
+    color: var(--creamYellow);
+    margin-left: 3px;
+    padding: 0 5px;
+    border-radius: 5px;
+    background-color: #430505;
+}
+
+.modalSection .modalContainer h5 {
+    padding: 10px 2rem;
+    text-align: justify;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-indent: 20px;
+    color: var(--fontColor);
+    margin-bottom: 1rem;
+}
+
+.modalSection .modalContainer small {
+    margin: 1rem 0;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--fontColor);
+}
+
+.hideModal {
+    display: none;
+}
+.closeModal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    font-weight:bold;
+    color: var(--lightGray); /* red */
+    cursor: pointer;
+    z-index: 200;
+}
+
+.closeModal:hover {
+    color: #5a0707; /* darker red */
+}
+
+
+/* REPORT FORM */
+.reportsForm {
+    width: 25rem;
+    height: 34rem;
+    position: fixed;
+    top: -50rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    border: 2px solid #430505;
+    padding: 1rem 3rem;
+    opacity: 0;
+}
+
+.reportsForm i {
+    position: absolute;
+    right: 17px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.reportsForm i:hover {
+    color: #430505;
+    transform: scale(1.1);
+}
+
+.reportsForm form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reportsForm form label {
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.reportsForm form input {
+    width: 100%;
+    font-size: 16px;
+    background-color: transparent;
+    border: 1px solid var(--lightGray);
+    border-radius: 6px;
+    outline: none;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+}
+
+.reportsForm form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid var(--pink);
+    border-radius: 6px;
+    outline: none;
+    resize: none;
+}
+
+.reportsForm form button {
+    width: 100%;
+    color: var(--creamYellow);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 5px 0;
+    margin: 1rem 0;
+    background-color: #430505;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.reportsForm form button:hover {
+    transform: scale(1.02);
+    background-color: #5a0707;
+}
+
+.reportsForm form button:active {
+    transform: scale(0.99);
+}
+
+.showReport {
+    top: 0;
+    opacity: 1;
+    transition: 0.3s ease-in-out;
+}
+
+/* SECTION */
+section {
+    width: 100%;
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section span {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-top: 6rem;
+}
+
+section table {
+    width: 60rem;
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 18px;
+    border-spacing: 6px 10px;
+    padding: 5px 0;
+}
+
+section table tr {
+    background-color: #fdf3b0; /* creamy yellow rows */
+}
+
+section table th {
+    width: 10rem;
+    font-size: 23px;
+    border-radius: 5px;
+    color: #430505;
+}
+
+section table td {
+    font-weight: 700;
+    font-family: "Roboto Mono", monospace;
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+/* FOOTER */
+footer {
+    width: 100%;
+    height: 8vh;
+    border-top: 1px solid var(--creamYellow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer .creditsContainer {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    margin: 0 2rem;
+}
+
+footer .creditsContainer span,
+footer .creditsContainer p {
+    color: pink;
+}
+

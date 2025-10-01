@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TypeIt</title>
+    <link rel="ICON" href="C:\Users\alamn\Pictures\RED.webp"/>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="Main.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<nav>
+    <div class="mylogo">
+        <p>Type It</p>
+    </div>
+    <button class="openModal">Info</button>
+</nav>
+
+
+<main>
+    <!-- Timer/Error container -->
+    <div class="statContain">
+        <p class="timer">Time: 60s</p>
+        <p class="errorE1">Errors: 0</p>
+    </div>
+
+    <!-- Sentences -->
+    <div class="sentences">
+        <!--INSERTS RANDOM PHRASES/SENTENCES-->
+    </div>
+
+    <!-- Input -->
+    <input type="text" class="input"/>
+
+    <!-- Control Buttons -->
+    <div class="GUI">
+        <button class="switch">Switch</button>
+        <button class="start">Start</button>
+        <button class="reset">Reset</button>
+    </div>
+
+    <!-- Notes -->
+    <small><span>Note:</span> Quickly start typing after clicking <span>Start</span> button</small>
+    <small><span>-</span> <span>NO backspacing allowed >:)!!!</span></small>
+</main>
+
+<div class="modalSection hideModal">
+    <div class="modalContainer">
+        <span class="closeModal">&times;</span>
+        <h2>Thanks for trying out Type <span>It!</span></h2>
+        <h5>
+            A better version of Typeracer built for my nerdy boyfriend and all other typers out there.
+            Practice your accuracy, speed, and patience with my timed drills.
+        </h5>
+        <small>(still being worked on <3)</small>
+    </div>
+</div>
+
+
+
+<!-- Bug Reporting -->
+<div class="reportsForm">
+    <h2>Report a bug!</h2>
+    <form onsubmit="return false">
+        <label>Title</label>
+        <input type="text"/>
+        <label>Description</label>
+        <textarea id="bugDesc" cols="30" rows="10"></textarea>
+        <button>Submit</button>
+    </form>
+</div>
+
+<!-- Records Section -->
+<section>
+    <span>Records</span>
+    <div class="tableContain"></div>
+    <table>
+        <tr>
+            <th>Error</th>
+            <th>Accuracy</th>
+            <th>WPM</th>
+        </tr>
+    </table>
+    <p class="notice">You haven't set any Record yet!</p>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="creditsContainer">
+        <span>@2025 TypeIt, All rights reserved.</span>
+        <p>Web created by Nicky</p>
+    </div>
+</footer>
+
+<script src="Main.js" type="module"></script>
+</body>
+</html>
