@@ -1,31 +1,32 @@
-import { texts } from "./typing.js";
+/* ---- TEMP: inline texts so we remove import issues ---- */
+const texts = [
+    "In the dreamlike world of Headspace, friends gather under colourful skies, but beneath the cheerful adventures lies a painful truth that Sunny must confront.",
+    "The wooden doll steps into dazzling neon halls, where every opponent turns into a musical storm, and dodging waves of light becomes the only way to survive battles that feel like ur ROCKING!",
+    "The assassin wakes each day to cryptic instructions, carrying out violent tasks but also questioning what is real and what is memory. Will he save her?",
+    "Outlaws ride through wide open prairies, chasing freedom and fortune, yet every gunfight and stolen dollar draws them closer to inevitable betrayal, as loyalty to the gang collides with the creeping weight of modern civilization.",
+    "A thick fog wraps the streets, and familiar landmarks twist into distorted shapes, while the radio crackles with static warning, each monster reflecting a deeper guilt, turning the town of Silent Hill into a mirror of fear itself.",
+    "With only the Camera Obscura as protection, a shutter's flash captures wandering spirits, their frozen images proof of horrors unseen, forcing the photographer to inch carefully through haunted forests where shadows whisper and sorrow lingers",
+];
 
-const inputE1 = document.querySelector(".input");
+/* ===== DOM ===== */
+const inputE1         = document.querySelector(".input");
 const sentenceContain = document.querySelector(".sentences");
+const timerE1         = document.querySelector(".timer");
+const errorE1         = document.querySelector(".errorE1");
+const recordsBody = document.getElementById("recordsBody");
 
-const timerE1 = document.querySelector(".timer");
-const errorE1 = document.querySelector(".errorE1");
-
-const start = document.querySelector(".start");
-const reset = document.querySelector(".reset");
+const start  = document.querySelector(".start");
+const reset  = document.querySelector(".reset");
 const change = document.querySelector(".switch");
 
 const table = document.querySelector("table");
 
+/* Modal */
 const modalSection = document.querySelector(".modalSection");
 const closeWelcome = document.querySelector(".closeModal");
-const openModal = document.querySelector(".openModal");
+const openModal    = document.querySelector(".openModal");
 
-if (openModal) {
-    openModal.addEventListener("click", () => {
-        modalSection.classList.remove("hideModal");
-    });
-}
-
-const reportForm = document.querySelector(".reportsForm"); // fixed selector
-const closeReport = document.querySelector(".reportsForm .closeModal");
-const reportBtn = document.querySelector(".fa-bug"); // optional if you add one
-
+/* ===== STATE ===== */
 let paused = true;
 let seconds = 60;
 
@@ -35,78 +36,97 @@ let correct = 0;
 let wordCount = 0;
 let guideIndex = 0;
 
-let span;
+let span; // NodeList of spans
 let timeInterval;
 
-// Start button
+/* ===== MODAL ===== */
+if (openModal) {
+    openModal.addEventListener("click", () => {
+        modalSection.classList.remove("hideModal");
+    });
+}
+if (closeWelcome) {
+    closeWelcome.addEventListener("click", () => {
+        modalSection.classList.add("hideModal");
+    });
+}
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modalSection.classList.contains("hideModal")) {
+        modalSection.classList.add("hideModal");
+    }
+});
+window.addEventListener("click", (e) => {
+    if (e.target === modalSection) modalSection.classList.add("hideModal");
+});
+
+/* ===== GAME CONTROLS ===== */
 start.addEventListener("click", () => {
+    if (!sentenceContain.firstChild) randomText();
+
     inputE1.focus();
     if (paused) {
         paused = false;
         start.style.opacity = 0.5;
         change.style.opacity = 0.5;
         timer();
-        sentenceContain.querySelectorAll("span")[0].className = "input";
+
+        const firstSpan = sentenceContain.querySelector("span");
+        if (firstSpan) firstSpan.className = "input";
     }
 });
 
-// Reset button
 reset.addEventListener("click", () => {
-    if (!paused) {
-        resetGame();
-    }
+    if (!paused) resetGame();
 });
 
-// Switch button
 change.addEventListener("click", () => {
-    if (paused) {
-        sentenceContain.innerHTML = "";
-        randomText();
-    }
-});
+    // Clear out the old sentence
+    sentenceContain.innerHTML = "";
+    randomText();
 
-// Always keep input focused while game is active
-document.addEventListener("click", () => {
+    // Reset typing state to start at the first letter
+    index = 0;
+    errors = 0;
+    correct = 0;
+    wordCount = 0;
+    guideIndex = 0;
+    errorE1.textContent = `Errors: 0`;
+
+    // If game is running, keep it live
     if (!paused) {
+        inputE1.value = "";
+        const firstSpan = sentenceContain.querySelector("span");
+        if (firstSpan) firstSpan.className = "input";
         inputE1.focus();
     }
 });
 
-// Close modal
-if (closeWelcome) {
-    closeWelcome.addEventListener("click", () => {
-        modalSection.classList.add("hideModal");
-    });
-}
+/* Keep focus while active */
+document.addEventListener("click", () => {
+    if (!paused) inputE1.focus();
+});
 
-// Close modal when pressing ESC
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modalSection.classList.contains("hideModal")) {
-        modalSection.classList.add("hideModal");
+/* Prevent backspace while playing + count words on space */
+document.addEventListener("keydown", (event) => {
+    if (!paused) {
+        if (event.key === "Backspace") {
+            event.preventDefault();
+            return false;
+        }
+        if (event.key === " ") {
+            wordCount++;
+        }
     }
 });
 
-// Bug report toggle
-if (reportBtn) {
-    reportBtn.addEventListener("click", () => {
-        reportForm.classList.add("showReport");
-    });
-}
-if (closeReport) {
-    closeReport.addEventListener("click", () => {
-        reportForm.classList.remove("showReport");
-    });
-}
-
-// Generate random text
+/* ===== TEXT / INPUT ===== */
 function randomText() {
     const randomNum = Math.floor(Math.random() * texts.length);
-    texts[randomNum]
-        .toLowerCase()
-        .split("")
-        .forEach((txt) => {
-            sentenceContain.innerHTML += `<span>${txt}</span>`;
-        });
+    const chars = texts[randomNum].split("");
+    sentenceContain.innerHTML = ""; // clear before filling
+    for (const ch of chars) {
+        sentenceContain.innerHTML += `<span>${ch}</span>`;
+    }
 }
 
 function checkInput() {
@@ -114,30 +134,26 @@ function checkInput() {
         span = sentenceContain.querySelectorAll("span");
         const inputs = e.target.value.split("");
 
-        if (inputs[index] == span[index].innerText) {
+        if (!span.length) return;
+
+        // Safety: if user typed more than text length, bail
+        if (index >= span.length) return;
+
+        if (inputs[index] === span[index].textContent) {  // <-- textContent
             span[index].style.color = "#0b4709"; // green
             correct++;
         } else {
-            span[index].style.color = "#47090c"; // red
+            span[index].style.color = "#c82b31"; // red
             errors++;
             errorE1.textContent = `Errors: ${errors}`;
         }
 
-        // Prevent backspace globally
-        document.onkeydown = (event) => {
-            if (event.key == "Backspace") {
-                event.preventDefault();
-                return false;
-            } else if (event.key == " ") {
-                wordCount++;
-            }
-        };
-
         index++;
-        if (inputs.length < span.length) {
+
+        if (index < span.length) {
             addGuide();
             removeGuide();
-        } else if (inputs.length == span.length) {
+        } else if (index === span.length) {
             renderRecord();
             resetGame();
         }
@@ -146,13 +162,14 @@ function checkInput() {
 randomText();
 checkInput();
 
+/* ===== TIMER ===== */
 function timer() {
     if (!paused) {
         timeInterval = setInterval(() => {
             seconds--;
             timerE1.textContent = `Time: ${seconds}s`;
 
-            if (seconds == 0) {
+            if (seconds === 0) {
                 renderRecord();
                 resetGame();
             }
@@ -160,19 +177,31 @@ function timer() {
     }
 }
 
+/* ===== RECORDS ===== */
 function renderRecord() {
-    document.querySelector(".notice").innerHTML = "";
-    let accuracy = Math.floor((correct / span.length) * 100);
+    const notice = document.querySelector(".notice");
+    if (notice) notice.innerHTML = "";
+
+    const total = span ? span.length : 1;
+    const accuracy = Math.max(0, Math.floor((correct / total) * 100));
+
+    const elapsed = 60 - seconds; // seconds spent typing
+    const minutes = elapsed > 0 ? elapsed / 60 : 1; // avoid divide by 0
+    const wpm = Math.round((index / 5) / minutes);
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
         <td>${errors}</td>
         <td>${accuracy}%</td>
-        <td>${wordCount * 2} WPM</td>
+        <td>${wpm} WPM</td>
     `;
     table.appendChild(tr);
+    (recordsBody || table.tBodies[0] || table.createTBody()).appendChild(tr);
 }
 
+
+
+/* ===== RESET ===== */
 function resetGame() {
     inputE1.blur();
     inputE1.value = "";
@@ -196,15 +225,15 @@ function resetGame() {
     randomText();
 }
 
+/* ===== CARET HIGHLIGHT ===== */
 function addGuide() {
-    if (!paused) {
+    if (!paused && span && span[guideIndex + 1]) {
         guideIndex++;
         span[guideIndex].className = "input";
     }
 }
-
 function removeGuide() {
-    if (!paused) {
+    if (!paused && span && span[guideIndex - 1]) {
         span[guideIndex - 1].className = "";
     }
 }

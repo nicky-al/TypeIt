@@ -103,12 +103,38 @@ main .sentences {
     line-height: 40px;
     text-align: justify;
     margin: 2rem 0 1rem 0;
+    font-weight: 700; /* makes it bold */
+
 }
 
 main .sentences .inputed-letter::before {
     content: "";
     border-left: 2px solid white;
 }
+/* Blinking cursor effect on current letter */
+.sentences .input {
+    position: relative;
+    font-weight: 900; /* bold the active letter */
+    color: var(--lightGray); /* highlight in red */
+}
+
+.sentences .input::after {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--creamYellow); /* cursor color */
+    animation: blink 0.8s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
 
 main input {
     color: black;
@@ -397,6 +423,6 @@ footer .creditsContainer {
 
 footer .creditsContainer span,
 footer .creditsContainer p {
-    color: pink;
+    color: #ffffff;
 }
 
